@@ -17,7 +17,7 @@ const { ethers } = require("hardhat");
     };
   
     describe("Deployment", () => {
-      it("should deploy succesfuly and return default values of count", async () => {
+      it("should deploy succesfully and set owner", async () => {
         const { deployedOwnable, owner, addr1, addr2 } = await loadFixture(deployUtil);
         let ownableOwner = await deployedOwnable.getOwner()
         console.log("ownable owner____", )
@@ -53,6 +53,17 @@ const { ethers } = require("hardhat");
           expect(newOwner).to.eq(addr1)
           expect(newOwner).to.not.eq(addr2)
           expect(newOwner).to.not.eq(ZERO_ADDRESS)
+        })
+      })
+
+      describe("Events", () => {
+        it("should emit an event when a new address has been given ownership", async () => {
+          const { deployedOwnable, owner, addr1 } = await loadFixture(deployUtil);
+
+          await expect(
+            deployedOwnable.connect(owner).changeOwner(addr1)
+          ).to.emit(deployedOwnable, "ChangeOwner")
+          .withArgs(owner, addr1)
         })
       })
     });

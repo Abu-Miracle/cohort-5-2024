@@ -36,8 +36,8 @@ contract Ownable {
     // Function to change the owner using an address as a parmeter 
     function changeOwner(address payable _newOwner) public onlyOwner {
         require(_newOwner != address(0), "Owner cannot be address zero");
-        owner = _newOwner;
         emit ChangeOwner(owner, _newOwner);
+        owner = _newOwner;
     }
 
      // Function to get the contract's balance
